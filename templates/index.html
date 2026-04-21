@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Indian AQI Dashboard</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+<h1>🇮🇳 Indian AQI City Comparison Dashboard</h1>
+
+<form method="POST">
+    <input name="cities" placeholder="City 1" required>
+    <input name="cities" placeholder="City 2" required>
+    <input name="cities" placeholder="City 3" required>
+    <button type="submit">Compare</button>
+</form>
+
+<!-- AQI LEGEND -->
+<div class="legend">
+    <h3>AQI Categories</h3>
+    <div class="box green">Good</div>
+    <div class="box yellow">Satisfactory</div>
+    <div class="box orange">Moderate</div>
+    <div class="box red">Poor</div>
+    <div class="box purple">Very Poor</div>
+    <div class="box maroon">Severe</div>
+</div>
+
+{% if results %}
+
+<table>
+<tr>
+<th>City</th>
+<th>PM2.5</th>
+<th>PM10</th>
+<th>NO₂</th>
+<th>AQI</th>
+<th>Category</th>
+<th>Health Advice</th>
+</tr>
+
+{% for r in results %}
+
+<tr>
+<td>{{ r.city }}</td>
+<td>{{ r.pm25 }}</td>
+<td>{{ r.pm10 }}</td>
+<td>{{ r.no2 }}</td>
+<td>{{ r.aqi }}</td>
+<td>{{ r.category }}</td>
+<td>
+    {% if r.aqi <= 50 %} Good air quality 😊
+    {% elif r.aqi <= 100 %} Acceptable 👍
+    {% elif r.aqi <= 200 %} Sensitive groups careful ⚠️
+    {% elif r.aqi <= 300 %} Avoid outdoor activity 🚫
+    {% elif r.aqi <= 400 %} Health risk 😷
+    {% else %} Severe danger 🚨
+    {% endif %}
+</td>
+</tr>
+
+{% endfor %}
+
+</table>
+
+<canvas id="chart"></canvas>
+
+<script>
+
+const labels = {{ results | map(attribute='city') | list | safe }};
+const values = {{ results | map(attribute='aqi') | list | safe }};
+
+new Chart(document.getElementById("chart"), {
+
+    type: "bar",
+
+    data: {
+        labels: labels,
+        datasets: [{
+            label: "AQI",
+            data: values,
+
+            backgroundColor: values.map(aqi => {
+                if (aqi <= 50) return "#2ecc71";
+                else if (aqi <= 100) return "#f1c40f";
+                else if (aqi <= 200) return "#e67e22";
+                else if (aqi <= 300) return "#e74c3c";
+                else if (aqi <= 400) return "#8e44ad";
+                else return "#800000";
+            })
+        }]
+    },
+
+    options: {
+        plugins: {
+            legend: {
+                labels: {
+                    color: "white"
+                }
+            }
+        },
+        scales: {
+            x: {
+                ticks: {
+                    color: "white"
+                },
+                grid: {
+                    color: "rgba(255,255,255,0.2)"
+                }
+            },
+            y: {
+                beginAtZero: true,
+                ticks: {
+                    color: "white"
+                },
+                grid: {
+                    color: "rgba(255,255,255,0.2)"
+                }
+            }
+        }
+    }
+
+});
+
+</script>
+
+{% endif %}
+
+</body>
+
+</html>

@@ -1,0 +1,87 @@
+/* Background Gradient */
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background: linear-gradient(135deg, #1e3c72, #2a5298);
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+/* Title */
+h1 {
+    color: white;
+    margin-top: 20px;
+}
+
+/* Glass Card Effect */
+form, table, canvas, .legend {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
+    padding: 20px;
+    margin: 20px auto;
+    width: 60%;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+
+/* Inputs */
+input {
+    padding: 10px;
+    margin: 10px;
+    border-radius: 6px;
+    border: none;
+}
+
+/* Button */
+button {
+    padding: 10px 15px;
+    background: #ff7e5f;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+button:hover {
+    background: #feb47b;
+}
+
+/* Table */
+table {
+    border-collapse: collapse;
+    width: 60%;
+    color: white;
+}
+
+th, td {
+    padding: 10px;
+    border-bottom: 1px solid rgba(255,255,255,0.3);
+}
+
+/* Chart */
+canvas {
+    width: 60% !important;
+}
+
+/* AQI Legend */
+.legend {
+    color: white;
+}
+
+.box {
+    display: inline-block;
+    padding: 10px;
+    margin: 5px;
+    border-radius: 6px;
+    font-weight: bold;
+}
+
+/* AQI Colors */
+.green { background: #2ecc71; }
+.yellow { background: #f1c40f; color: black; }
+.orange { background: #e67e22; }
+.red { background: #e74c3c; }
+.purple { background: #8e44ad; }
+.maroon { background: #800000; }
